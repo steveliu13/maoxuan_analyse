@@ -1,7 +1,16 @@
+import os
+
 import jieba
 
-from read_file.stop_words import import_stop_words
 from util import DataUtil
+
+def import_stop_words():
+    path = os.path.abspath(".")+"/resource/cn_stopwords.txt"
+    stop_words = set()
+    stopwords_list = open(path, "r", encoding='utf-8')
+    stop_words.update(stopwords_list)
+
+    return stop_words
 
 # 为词云分词
 def cut_word_4_cloud(lines):
@@ -20,7 +29,7 @@ def cut_word_4_cloud(lines):
             seg_list = jieba.cut(sentence)
             for key in seg_list:
                 # 去除停用词，去除单字，去除非字符串类型的词
-                if not (key.strip() in stop_words) and len(key) > 1 and type(key) is str:
+                if (key.strip() not in stop_words) and len(key) > 1 and type(key) is str:
                     result.append(key)
 
     return result
