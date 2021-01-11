@@ -1,7 +1,9 @@
 import datetime
+import re
 
 
 def ChineseToDate(chineseStr):
+    chineseStr = re.sub("[(（）)]", "", chineseStr)
     strch1 = '0一二三四五六七八九十'
     strch2 = '○一二三四五六七八九十'
     y, m, d = '', '', ''
@@ -43,7 +45,7 @@ def ChineseToDate(chineseStr):
         return datetime.date(int(y), int(m), int(d))
     elif y != '' and m != '':
         #return y + '-' + m  # datetime.date(int(y), int(m))
-        return datetime.date(int(y), int(m),0)
+        return datetime.date(int(y), int(m),1)
     elif y != '':
         #return y
-        return datetime.date(int(y),0,0)
+        return datetime.date(int(y),1,1)

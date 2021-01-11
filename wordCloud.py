@@ -5,6 +5,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 from read_file.file_parser import read_file
+from util.DataUtil import writeList
 from word_process.cut_util import cut_word_4_cloud
 
 # 获取所有时期-目录
@@ -26,7 +27,6 @@ def period_word_cloud(dir_path, period):
         sentences.append(art.content)
     cut_text = cut_word_4_cloud(sentences)
     result = " ".join(cut_text)
-    print(result)
     wc = WordCloud(
         # 设置字体，不指定就会出现乱码
         font_path='/System/Library/Fonts/Hiragino Sans GB.ttc',
@@ -65,16 +65,16 @@ def year_word_cloud(file_path):
     for period in periods:
         articles.extend(read_file(file_path + "/" + period))
     for article in articles:
-        if article.write_time.year not in result.keys():
-            result[article.write_time.year] = []
-            result[article.write_time.year].append(article.content)
-        else:
-            result[article.write_time.year].append(article.content)
+        if article.write_time is not None:
+            if article.write_time.year not in result.keys():
+                result[article.write_time.year] = []
+                result[article.write_time.year].append(article.content)
+            else:
+                result[article.write_time.year].append(article.content)
     for year in result.keys():
         sentences = result.get(year)
         cut_text = cut_word_4_cloud(sentences)
         texts = " ".join(cut_text)
-        print(texts)
         wc = WordCloud(
             # 设置字体，不指定就会出现乱码
             font_path='/System/Library/Fonts/Hiragino Sans GB.ttc',
