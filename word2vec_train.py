@@ -31,7 +31,6 @@ def trainModel():
         if i % 100 == 0:
             print('当前进度：第' + str(i) + '行')
         temp = ''
-        line_entities = set()  # 每行的实体
         # 断句
         sentences = DataUtil.spiltString(line)
         for sentence in sentences:
@@ -45,10 +44,10 @@ def trainModel():
         write_data.append(temp)
 
     DataUtil.writeList(write_data, 'after_cut.txt')
-    print('实体写入完毕')
+    print('分词写入完毕')
     model = Word2Vec(LineSentence('after_cut.txt'), size=400, window=5, min_count=5, workers=multiprocessing.cpu_count())
     model.save( 'maoxuan.model')
-    model.wv.save_word2vec_format('maoxun.vector', binary=False)
+    model.wv.save_word2vec_format('maoxuan.vector', binary=False)
     print('训练完毕')
 
 
