@@ -38,7 +38,7 @@ def trainModel():
             sentence = DataUtil.removeSymbol(sentence)
             sentence = DataUtil.removeBrackets(sentence)
             # 每行单独分词，实体加在后面
-            words = jieba.lcut_for_search(sentence)
+            words = jieba.cut(sentence)
             for word in words:
                 if word not in stop_words :
                     temp += ' ' + word + ' '
@@ -68,7 +68,7 @@ def write_w2v_result(words, maoxuan_model):
         if word not in maoxuan_model:
             continue
         word_sims.append((word, maoxuan_model.most_similar(word)[0][0], maoxuan_model.most_similar(word)[0][1]))
-    with open("分析结果/word2vec分析结果.txt", 'a', encoding='utf-8')as fp:
+    with open("分析结果/word2vec分析结果.txt", 'w', encoding='utf-8')as fp:
         for ws in word_sims:
             fp.write(ws[0]+ " " + ws[1] + " "+ str(ws[2])+'\n')
 
